@@ -383,7 +383,7 @@ Errors:
 * **Scope:** App shell only (offline-first posture, theming, navigation, DB init).
 * **Tech choices:** Flutter + go_router; Riverpod project structure; drift initialisation + migrations scaffold.
 * **Artifacts:**
-  * Flutter project with app theme, typography, and reusable components folder
+  * Flutter project with app theme, typography (see brand-kit.md), and reusable components folder
   * Navigation scaffold (bottom tabs + app bars) with placeholder screen widgets
   * drift database initialised (migration infrastructure in place; tables can be stubbed or empty)
   * README: run/lint/test
