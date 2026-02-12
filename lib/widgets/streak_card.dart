@@ -11,15 +11,18 @@ class StreakCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.space4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _StreakColumn(value: current, label: 'Current Streak'),
-            _StreakColumn(value: longest, label: 'Longest Streak'),
-          ],
+    return Semantics(
+      label: 'Current streak $current days, Longest streak $longest days',
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.space4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _StreakColumn(value: current, label: 'Current Streak'),
+              _StreakColumn(value: longest, label: 'Longest Streak'),
+            ],
+          ),
         ),
       ),
     );

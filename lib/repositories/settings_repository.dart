@@ -14,6 +14,11 @@ class SettingsRepository {
     return row?.dailyTargetMl ?? 2000;
   }
 
+  Future<void> resetAllData() async {
+    await _db.delete(_db.waterEntries).go();
+    await setTarget(2000);
+  }
+
   Future<void> setTarget(int dailyTargetMl) async {
     if (dailyTargetMl < 250 || dailyTargetMl > 10000) {
       throw ArgumentError.value(

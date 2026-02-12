@@ -19,35 +19,39 @@ class QuickAddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 76,
-      child: Material(
-        color: AppColors.bgSurface,
-        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-        child: InkWell(
-          onTap: onPressed,
+    return Semantics(
+      button: true,
+      label: 'Add $label ${amountMl ?? ""} ml',
+      child: SizedBox(
+        width: 76,
+        child: Material(
+          color: AppColors.bgSurface,
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.space3,
-              horizontal: AppSpacing.space2,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, color: AppColors.primary),
-                const SizedBox(height: AppSpacing.space1),
-                Text(label, style: Theme.of(context).textTheme.labelMedium),
-                if (amountMl != null) ...[
+          child: InkWell(
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: AppSpacing.space3,
+                horizontal: AppSpacing.space2,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, color: AppColors.primary),
                   const SizedBox(height: AppSpacing.space1),
-                  Text(
-                    '$amountMl ml',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
+                  Text(label, style: Theme.of(context).textTheme.labelMedium),
+                  if (amountMl != null) ...[
+                    const SizedBox(height: AppSpacing.space1),
+                    Text(
+                      '$amountMl ml',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

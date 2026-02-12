@@ -3,24 +3,32 @@ import 'package:flutter/services.dart';
 
 import '../theme/app_spacing.dart';
 
-class CustomAmountSheet extends StatefulWidget {
-  const CustomAmountSheet({super.key});
+class EditTargetSheet extends StatefulWidget {
+  const EditTargetSheet({super.key, required this.currentTarget});
 
-  static Future<int?> show(BuildContext context) {
+  final int currentTarget;
+
+  static Future<int?> show(BuildContext context, {required int currentTarget}) {
     return showModalBottomSheet<int>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => const CustomAmountSheet(),
+      builder: (_) => EditTargetSheet(currentTarget: currentTarget),
     );
   }
 
   @override
-  State<CustomAmountSheet> createState() => _CustomAmountSheetState();
+  State<EditTargetSheet> createState() => _EditTargetSheetState();
 }
 
-class _CustomAmountSheetState extends State<CustomAmountSheet> {
-  final _controller = TextEditingController();
+class _EditTargetSheetState extends State<EditTargetSheet> {
+  late final TextEditingController _controller;
   String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: '${widget.currentTarget}');
+  }
 
   @override
   void dispose() {
@@ -36,12 +44,12 @@ class _CustomAmountSheetState extends State<CustomAmountSheet> {
     }
 
     final amount = int.tryParse(text) ?? 0;
-    if (amount < 1) {
-      setState(() => _errorText = 'Amount must be at least 1 ml');
+    if (amount < 250) {
+      setState(() => _errorText = 'Target must be at least 250 ml');
       return;
     }
-    if (amount > 5000) {
-      setState(() => _errorText = 'Amount must be at most 5,000 ml');
+    if (amount > 10000) {
+      setState(() => _errorText = 'Target must be at most 10,000 ml');
       return;
     }
 
@@ -53,7 +61,7 @@ class _CustomAmountSheetState extends State<CustomAmountSheet> {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return Semantics(
-      label: 'Custom amount entry sheet',
+      label: 'Edit daily target sheet',
       child: Padding(
         padding: EdgeInsets.only(
           left: AppSpacing.space4,
@@ -75,7 +83,7 @@ class _CustomAmountSheetState extends State<CustomAmountSheet> {
             ),
             const SizedBox(height: AppSpacing.space4),
             Text(
-              'Custom Amount',
+              'Edit Daily Target',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: AppSpacing.space4),
@@ -84,7 +92,7 @@ class _CustomAmountSheetState extends State<CustomAmountSheet> {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
-                hintText: 'Enter amount',
+                hintText: 'Enter target',
                 suffixText: 'ml',
                 errorText: _errorText,
               ),
@@ -94,7 +102,10 @@ class _CustomAmountSheetState extends State<CustomAmountSheet> {
             const SizedBox(height: AppSpacing.space4),
             SizedBox(
               width: double.infinity,
-              child: FilledButton(onPressed: _submit, child: const Text('Add')),
+              child: FilledButton(
+                onPressed: _submit,
+                child: const Text('Save'),
+              ),
             ),
           ],
         ),

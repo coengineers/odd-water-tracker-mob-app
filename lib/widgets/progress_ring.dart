@@ -23,30 +23,33 @@ class ProgressRing extends StatelessWidget {
     final percentage = target > 0 ? ((consumed / target) * 100).round() : 0;
     final progress = target > 0 ? (consumed / target).clamp(0.0, 1.0) : 0.0;
 
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CustomPaint(
-        painter: _ProgressRingPainter(
-          progress: progress,
-          strokeWidth: strokeWidth,
-          isComplete: consumed >= target && target > 0,
-        ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '$percentage%',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              Text(
-                '$consumed / $target ml',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.textSecondary),
-              ),
-            ],
+    return Semantics(
+      label: '$percentage% of daily target, $consumed of $target ml',
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: CustomPaint(
+          painter: _ProgressRingPainter(
+            progress: progress,
+            strokeWidth: strokeWidth,
+            isComplete: consumed >= target && target > 0,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '$percentage%',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Text(
+                  '$consumed / $target ml',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
