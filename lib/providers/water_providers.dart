@@ -26,3 +26,17 @@ Future<({int current, int longest})> streaks(Ref ref) {
         ref.watch(waterStatsRepositoryProvider).getStreaks(today, targetMl),
   );
 }
+
+@riverpod
+Future<Map<String, int>> weeklySummary(Ref ref) {
+  final today = DateTime.now().toIso8601String().substring(0, 10);
+  return ref.watch(waterStatsRepositoryProvider).getWeeklySummary(today);
+}
+
+@riverpod
+Future<Map<String, int>> monthlyTotals(Ref ref) {
+  final now = DateTime.now();
+  return ref
+      .watch(waterStatsRepositoryProvider)
+      .getMonthlyTotals(now.year, now.month);
+}
