@@ -4,10 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../theme/app_colors.dart';
 
 class ScaffoldWithNavBar extends StatelessWidget {
-  const ScaffoldWithNavBar({
-    required this.navigationShell,
-    super.key,
-  });
+  const ScaffoldWithNavBar({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
 

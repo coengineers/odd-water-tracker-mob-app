@@ -9,9 +9,7 @@ class WeeklyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Weekly Summary'),
-      ),
+      appBar: AppBar(title: const Text('Weekly Summary')),
       body: Semantics(
         label: 'Weekly summary screen',
         child: Padding(

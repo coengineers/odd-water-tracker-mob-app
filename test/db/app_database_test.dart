@@ -23,7 +23,9 @@ void main() {
     });
 
     test('water_entries table accepts valid data', () async {
-      await db.into(db.waterEntries).insert(
+      await db
+          .into(db.waterEntries)
+          .insert(
             WaterEntriesCompanion.insert(
               id: 'test-id-1',
               entryTs: '2025-01-15T10:30:00.000',
@@ -47,9 +49,9 @@ void main() {
     });
 
     test('default settings row is seeded with id=1', () async {
-      final row = await (db.select(db.userSettings)
-            ..where((t) => t.id.equals(1)))
-          .getSingleOrNull();
+      final row = await (db.select(
+        db.userSettings,
+      )..where((t) => t.id.equals(1))).getSingleOrNull();
       expect(row, isNotNull);
       expect(row!.dailyTargetMl, equals(2000));
     });

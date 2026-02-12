@@ -9,10 +9,11 @@ class WaterStatsRepository {
 
   Future<int> getTodayTotal() async {
     final today = DateTime.now().toIso8601String().substring(0, 10);
-    final result = await (_db.selectOnly(_db.waterEntries)
-          ..addColumns([_db.waterEntries.amountMl.sum()])
-          ..where(_db.waterEntries.entryDate.equals(today)))
-        .getSingleOrNull();
+    final result =
+        await (_db.selectOnly(_db.waterEntries)
+              ..addColumns([_db.waterEntries.amountMl.sum()])
+              ..where(_db.waterEntries.entryDate.equals(today)))
+            .getSingleOrNull();
     return result?.read(_db.waterEntries.amountMl.sum()) ?? 0;
   }
 
@@ -55,8 +56,11 @@ class WaterStatsRepository {
         '${year.toString().padLeft(4, '0')}-${month.toString().padLeft(2, '0')}-01';
     final nextMonth = month == 12 ? 1 : month + 1;
     final nextYear = month == 12 ? year + 1 : year;
-    final endDate =
-        DateTime(nextYear, nextMonth, 1).subtract(const Duration(days: 1));
+    final endDate = DateTime(
+      nextYear,
+      nextMonth,
+      1,
+    ).subtract(const Duration(days: 1));
     final endStr = endDate.toIso8601String().substring(0, 10);
     return getDailyTotals(startStr, endStr);
   }

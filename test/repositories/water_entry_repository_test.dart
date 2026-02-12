@@ -43,17 +43,11 @@ void main() {
     });
 
     test('add() throws for amountMl < 1', () {
-      expect(
-        () => repo.add(amountMl: 0),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => repo.add(amountMl: 0), throwsA(isA<ArgumentError>()));
     });
 
     test('add() throws for amountMl > 5000', () {
-      expect(
-        () => repo.add(amountMl: 5001),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => repo.add(amountMl: 5001), throwsA(isA<ArgumentError>()));
     });
 
     test('listByDate() returns entries newest-first', () async {

@@ -8,9 +8,9 @@ class SettingsRepository {
   final AppDatabase _db;
 
   Future<int> getTarget() async {
-    final row = await (_db.select(_db.userSettings)
-          ..where((t) => t.id.equals(1)))
-        .getSingleOrNull();
+    final row = await (_db.select(
+      _db.userSettings,
+    )..where((t) => t.id.equals(1))).getSingleOrNull();
     return row?.dailyTargetMl ?? 2000;
   }
 

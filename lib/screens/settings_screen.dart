@@ -11,9 +11,7 @@ class SettingsScreen extends ConsumerWidget {
     final dailyTarget = ref.watch(dailyTargetProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
+      appBar: AppBar(title: const Text('Settings')),
       body: Semantics(
         label: 'Settings screen',
         child: ListView(

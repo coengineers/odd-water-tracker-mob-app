@@ -29,17 +29,11 @@ void main() {
     });
 
     test('setTarget() throws for value below 250', () {
-      expect(
-        () => repo.setTarget(249),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => repo.setTarget(249), throwsA(isA<ArgumentError>()));
     });
 
     test('setTarget() throws for value above 10000', () {
-      expect(
-        () => repo.setTarget(10001),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => repo.setTarget(10001), throwsA(isA<ArgumentError>()));
     });
 
     test('setTarget() accepts boundary value 250', () async {

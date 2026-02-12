@@ -9,9 +9,7 @@ class MonthlyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Monthly Patterns'),
-      ),
+      appBar: AppBar(title: const Text('Monthly Patterns')),
       body: Semantics(
         label: 'Monthly patterns screen',
         child: Padding(

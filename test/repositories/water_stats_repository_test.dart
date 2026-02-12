@@ -35,18 +35,9 @@ void main() {
     });
 
     test('getDailyTotals() returns correct range', () async {
-      await entryRepo.add(
-        amountMl: 500,
-        entryTs: DateTime(2025, 3, 10, 10, 0),
-      );
-      await entryRepo.add(
-        amountMl: 300,
-        entryTs: DateTime(2025, 3, 11, 10, 0),
-      );
-      await entryRepo.add(
-        amountMl: 400,
-        entryTs: DateTime(2025, 3, 12, 10, 0),
-      );
+      await entryRepo.add(amountMl: 500, entryTs: DateTime(2025, 3, 10, 10, 0));
+      await entryRepo.add(amountMl: 300, entryTs: DateTime(2025, 3, 11, 10, 0));
+      await entryRepo.add(amountMl: 400, entryTs: DateTime(2025, 3, 12, 10, 0));
 
       final totals = await statsRepo.getDailyTotals('2025-03-10', '2025-03-12');
 
@@ -57,18 +48,9 @@ void main() {
     });
 
     test('getDailyTotals() excludes outside range', () async {
-      await entryRepo.add(
-        amountMl: 500,
-        entryTs: DateTime(2025, 3, 9, 10, 0),
-      );
-      await entryRepo.add(
-        amountMl: 300,
-        entryTs: DateTime(2025, 3, 10, 10, 0),
-      );
-      await entryRepo.add(
-        amountMl: 400,
-        entryTs: DateTime(2025, 3, 13, 10, 0),
-      );
+      await entryRepo.add(amountMl: 500, entryTs: DateTime(2025, 3, 9, 10, 0));
+      await entryRepo.add(amountMl: 300, entryTs: DateTime(2025, 3, 10, 10, 0));
+      await entryRepo.add(amountMl: 400, entryTs: DateTime(2025, 3, 13, 10, 0));
 
       final totals = await statsRepo.getDailyTotals('2025-03-10', '2025-03-12');
 
@@ -92,19 +74,10 @@ void main() {
     });
 
     test('getMonthlyTotals() returns correct month', () async {
-      await entryRepo.add(
-        amountMl: 500,
-        entryTs: DateTime(2025, 2, 15, 10, 0),
-      );
-      await entryRepo.add(
-        amountMl: 300,
-        entryTs: DateTime(2025, 2, 20, 10, 0),
-      );
+      await entryRepo.add(amountMl: 500, entryTs: DateTime(2025, 2, 15, 10, 0));
+      await entryRepo.add(amountMl: 300, entryTs: DateTime(2025, 2, 20, 10, 0));
       // Outside month
-      await entryRepo.add(
-        amountMl: 999,
-        entryTs: DateTime(2025, 3, 1, 10, 0),
-      );
+      await entryRepo.add(amountMl: 999, entryTs: DateTime(2025, 3, 1, 10, 0));
 
       final totals = await statsRepo.getMonthlyTotals(2025, 2);
       expect(totals, hasLength(2));

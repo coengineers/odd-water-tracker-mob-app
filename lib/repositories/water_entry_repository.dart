@@ -45,9 +45,9 @@ class WaterEntryRepository {
   }
 
   Future<bool> delete(String id) async {
-    final count = await (_db.delete(_db.waterEntries)
-          ..where((t) => t.id.equals(id)))
-        .go();
+    final count = await (_db.delete(
+      _db.waterEntries,
+    )..where((t) => t.id.equals(id))).go();
     return count > 0;
   }
 }

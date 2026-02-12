@@ -7,9 +7,5 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
-  runApp(
-    const ProviderScope(
-      child: WaterLogApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: WaterLogApp()));
 }

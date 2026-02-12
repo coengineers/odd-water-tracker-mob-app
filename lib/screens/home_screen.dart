@@ -8,6 +8,10 @@ import '../providers/water_providers.dart';
 import '../router/app_router.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
+import '../widgets/custom_amount_sheet.dart';
+import '../widgets/progress_ring.dart';
+import '../widgets/quick_add_button.dart';
+import '../widgets/streak_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -39,68 +43,88 @@ class HomeScreen extends ConsumerWidget {
       ),
       body: Semantics(
         label: 'Home screen',
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.space4),
           child: Column(
             children: [
-              // Progress section
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.space6),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Today\'s Progress',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: AppSpacing.space3),
-                      todayTotal.when(
-                        data: (total) => dailyTarget.when(
-                          data: (target) => Text(
-                            '$total / $target ml',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(
-                                  color: total >= target
-                                      ? AppColors.success
-                                      : AppColors.primary,
-                                ),
-                          ),
-                          loading: () =>
-                              const CircularProgressIndicator(),
-                          error: (e, _) => Text('Error: $e'),
-                        ),
-                        loading: () =>
-                            const CircularProgressIndicator(),
-                        error: (e, _) => Text('Error: $e'),
-                      ),
-                    ],
+              // Progress ring
+              todayTotal.when(
+                data: (total) => dailyTarget.when(
+                  data: (target) =>
+                      ProgressRing(consumed: total, target: target),
+                  loading: () => const CircularProgressIndicator(),
+                  error: (e, _) => Text('Error: $e'),
+                ),
+                loading: () => const CircularProgressIndicator(),
+                error: (e, _) => Text('Error: $e'),
+              ),
+              const SizedBox(height: AppSpacing.space2),
+
+              // Daily target label
+              dailyTarget.when(
+                data: (target) => Text(
+                  'Daily Target: $target ml',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
                   ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.space6),
-
-              // Quick-add buttons
-              Text(
-                'Quick Add',
-                style: Theme.of(context).textTheme.titleSmall,
+                loading: () => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
               ),
               const SizedBox(height: AppSpacing.space3),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+              // Empty state prompt
+              todayTotal.when(
+                data: (total) => total == 0
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: AppSpacing.space3,
+                        ),
+                        child: Text(
+                          'Start tracking by logging your first glass!',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: AppColors.textSecondary),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                loading: () => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
+              ),
+
+              // Quick-add buttons
+              Wrap(
+                spacing: AppSpacing.space3,
+                runSpacing: AppSpacing.space3,
+                alignment: WrapAlignment.center,
                 children: [
-                  _QuickAddButton(
+                  QuickAddButton(
+                    label: 'Glass',
+                    icon: Icons.local_drink_outlined,
                     amountMl: 250,
                     onPressed: () => _addWater(ref, 250),
                   ),
-                  _QuickAddButton(
+                  QuickAddButton(
+                    label: 'Bottle',
+                    icon: Icons.water_drop_outlined,
                     amountMl: 500,
                     onPressed: () => _addWater(ref, 500),
                   ),
-                  _QuickAddButton(
+                  QuickAddButton(
+                    label: 'Large',
+                    icon: Icons.water_outlined,
                     amountMl: 750,
                     onPressed: () => _addWater(ref, 750),
+                  ),
+                  QuickAddButton(
+                    label: 'Custom',
+                    icon: Icons.edit_outlined,
+                    onPressed: () async {
+                      final amount = await CustomAmountSheet.show(context);
+                      if (amount != null) {
+                        _addWater(ref, amount);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -108,46 +132,7 @@ class HomeScreen extends ConsumerWidget {
 
               // Streak display
               streaks.when(
-                data: (s) => Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.space4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              '${s.current}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(color: AppColors.primary),
-                            ),
-                            Text(
-                              'Current Streak',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '${s.longest}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(color: AppColors.primary),
-                            ),
-                            Text(
-                              'Longest Streak',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                data: (s) => StreakCard(current: s.current, longest: s.longest),
                 loading: () => const CircularProgressIndicator(),
                 error: (e, _) => Text('Error: $e'),
               ),
@@ -155,24 +140,6 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _QuickAddButton extends StatelessWidget {
-  const _QuickAddButton({
-    required this.amountMl,
-    required this.onPressed,
-  });
-
-  final int amountMl;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: onPressed,
-      child: Text('${amountMl}ml'),
     );
   }
 }

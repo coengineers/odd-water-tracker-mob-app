@@ -22,9 +22,7 @@ abstract final class AppTheme {
       letterSpacing: AppTypography.letterSpacingHeading,
     );
 
-    final bodyStyle = const TextStyle(
-      fontFamily: AppTypography.fontFamilyBody,
-    );
+    final bodyStyle = const TextStyle(fontFamily: AppTypography.fontFamilyBody);
 
     final textTheme = TextTheme(
       displayLarge: headingStyle.copyWith(
@@ -147,10 +145,7 @@ abstract final class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
-          borderSide: const BorderSide(
-            color: AppColors.primary,
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.space3,

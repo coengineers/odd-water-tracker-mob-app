@@ -13,9 +13,7 @@ class DailyScreen extends ConsumerWidget {
     final todayEntries = ref.watch(todayEntriesProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Daily'),
-      ),
+      appBar: AppBar(title: const Text('Daily')),
       body: Semantics(
         label: 'Daily screen',
         child: Padding(
