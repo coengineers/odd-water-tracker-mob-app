@@ -99,9 +99,9 @@ Delivered in branch `004-weekly-summary`:
 - Additional water providers for weekly/monthly data (`lib/providers/water_providers.dart`).
 - Screen and widget tests (`test/screens/weekly_screen_test.dart`, `test/screens/monthly_screen_test.dart`, `test/widgets/`).
 
-<img src="screenshots/D4-weekly.jpg" alt="D4 Weekly Summary" width="30%" />
+<img src="screenshots/d4-weekly.jpg" alt="D4 Weekly Summary" width="30%" />
 
-<img src="screenshots/D4-mothly.jpg" alt="D4 Monthly Patterns" width="30%" />
+<img src="screenshots/d4-mothly.jpg" alt="D4 Monthly Patterns" width="30%" />
 
 ## D5 — Settings + Polish, QA, Release Readiness
 
