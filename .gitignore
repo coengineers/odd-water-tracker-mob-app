@@ -28,7 +28,6 @@ Thumbs.db
 coverage/
 
 # Agents & Tools
-.agents
 .claude
 .specify
 
